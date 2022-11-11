@@ -1,4 +1,12 @@
+import styled from 'styled-components';
+import palette from '../lib/palette';
+import Header from '../components/common/Header';
+
 const LandingPage = () => {
-  return <div>랜딩페이지</div>;
+  return (
+    <div>
+      <Header />
+    </div>
+  );
 };
 export default LandingPage;
