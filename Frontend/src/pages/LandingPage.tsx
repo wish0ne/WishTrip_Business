@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import palette from '../lib/palette';
 import Header from '../components/common/Header';
 import Landing from '../assets/images/landing.jpg';
@@ -42,7 +43,7 @@ const Title = styled.h1`
   line-height: 4.2rem;
   white-space: pre;
 `;
-const StartButton = styled.button`
+const StartButton = styled(Link)`
   background-color: ${palette.primary3};
   border-radius: 0.6rem;
   font-family: 'Medium';
@@ -57,13 +58,13 @@ const StartButton = styled.button`
 const LandingPage = () => {
   return (
     <>
-      <Header />
+      <Header>로그인</Header>
       <Background>
         <Image src={Landing} />
         <Cover />
         <Content>
           <Title>{`모든 여행객들에게\n내 비즈니스를 소개하세요.`}</Title>
-          <StartButton>시작하기</StartButton>
+          <StartButton to="./DashBoard">시작하기</StartButton>
         </Content>
       </Background>
     </>

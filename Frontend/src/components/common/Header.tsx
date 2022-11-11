@@ -58,7 +58,7 @@ const Header = ({ children }: HeaderPropsType) => {
       </Container>
       <Container>
         <User>홍길동 님</User>
-        <Button>로그인</Button>
+        <Button>{children}</Button>
       </Container>
     </StyledHeader>
   );
