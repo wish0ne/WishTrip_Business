@@ -11,7 +11,7 @@ const StyledHeader = styled.div`
   background: white;
   box-shadow: 0 0.4rem 0.8rem rgba(58, 58, 58, 0.1);
   justify-content: space-between;
-  box-sizing: border-box;
+  z-index: 10;
 `;
 
 const HeaderTitle = styled.span`
