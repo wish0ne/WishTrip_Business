@@ -2,15 +2,14 @@ import Geofence from "../../models/geofence.js";
 
 //geofence 데이터 생성
 const geofence_data = [];
-//대한민국 위도 : 125.06666667-131.87222222 / 경도 : 33.10000000-38.45000000
+//대한민국 경도 : 125.06666667-131.87222222 / 위도 : 33.10000000-38.45000000
+//서울 위도 : 37.715133 - 37.413294 / 경도 : 127.269311 - 126.734086
 export const create = async (ctx) => {
-  for (let i = 125; i <= 132; i += 0.05) {
-    for (let j = 33; j <= 39; j += 0.05) {
+  for (let i = 126.73; i <= 127.27; i += 0.01) {
+    for (let j = 37.42; j <= 37.72; j += 0.01) {
       const data = new Geofence({
-        lat1: j.toFixed(2),
-        lat2: (j + 0.05).toFixed(2),
-        lng1: i.toFixed(2),
-        lng2: (i + 0.05).toFixed(2),
+        lat: j.toFixed(2),
+        lng: i.toFixed(2),
       });
       geofence_data.push(data);
     }
@@ -23,6 +22,12 @@ export const create = async (ctx) => {
   }
 };
 
-export const read = (ctx) => {
-  const { id } = ctx.params;
+export const read = async (ctx) => {
+  try {
+    const geofence = await Geofence.find().exec();
+    ctx.body = geofence;
+    ctx.status = 200;
+  } catch (e) {
+    ctx.throw(500, e);
+  }
 };
