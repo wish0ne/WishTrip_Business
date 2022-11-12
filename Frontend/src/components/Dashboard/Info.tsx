@@ -1,10 +1,8 @@
 import styled from 'styled-components';
 import palette from '../../lib/palette';
-import cafe from '../../assets/images/cafe.jpg';
 
 const InfoBlock = styled.div`
   display: flex;
-  padding: 1.4rem 1.6rem;
   width: 100%;
   align-items: center;
   background-color: ${palette.inversed1};
