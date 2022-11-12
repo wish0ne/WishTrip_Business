@@ -4,7 +4,8 @@ import Title from './Title';
 import Button from './Button';
 import Input from './Input';
 import { useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { editImage } from '../../recoil/atom';
 
 const EditBlock = styled.div`
   width: 50%;
@@ -47,12 +48,16 @@ const EditBlock = styled.div`
 
 const PostEdit = () => {
   const [title, setTitle] = useState('');
+  const setEditImage = useSetRecoilState(editImage);
+  const handleUploadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) setEditImage(URL.createObjectURL(e.target.files[0]));
+  };
   return (
     <EditBlock>
       <Title>포스트를 작성하세요</Title>
       <h2>사진 추가</h2>
       <label htmlFor="inputFile">파일 업로드</label>
-      <input type="file" id="inputFile" />
+      <input type="file" id="inputFile" onChange={handleUploadFile} />
       <h2>포스트 내용 작성</h2>
       <textarea />
       <Button active={title !== ''}>다음</Button>

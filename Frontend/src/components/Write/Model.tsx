@@ -4,6 +4,8 @@ import EmptyContent from './EmptyContent';
 import cafe from '../../assets/images/cafe.jpg';
 import { ReactComponent as Heart } from '../../assets/images/regular-heart.svg';
 import Comment from './Comment';
+import { editImage } from '../../recoil/atom';
+import { useRecoilValue } from 'recoil';
 
 const ModelBlock = styled.div`
   width: 28rem;
@@ -66,10 +68,10 @@ const WriterIcon = styled.img`
 const Body = styled.div``;
 
 const Model = () => {
+  const image = useRecoilValue(editImage);
   return (
     <ModelBlock>
-      <ImageBlock>{/* <Image src={cafe} /> */}</ImageBlock>
-
+      <ImageBlock>{image !== '' && <Image src={image} />}</ImageBlock>
       <ContentBlock>
         <Writer>
           <WriterIcon src={cafe} />
