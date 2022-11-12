@@ -5,7 +5,6 @@ const InfoBlock = styled.div`
   display: flex;
   width: 100%;
   align-items: center;
-  background-color: ${palette.inversed1};
   & > img {
     width: 7.5rem;
     height: 7.5rem;

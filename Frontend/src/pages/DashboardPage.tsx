@@ -6,6 +6,8 @@ import Header from '../components/common/Header';
 import Info from '../components/Dashboard/Info';
 import Panel from '../components/Dashboard/Panel';
 import { dashboardInfoData } from '../mock/data';
+import { clickInfo } from '../recoil/atom';
+import { useRecoilState } from 'recoil';
 
 const DashboardBlock = styled.div`
   display: flex;
@@ -55,7 +57,11 @@ const mapOptions = {
   },
 };
 
+const infoWindows: naver.maps.InfoWindow[] = [];
+const markers: naver.maps.Marker[] = [];
+
 const DashboardPage = () => {
+  const [clicked, setClicked] = useRecoilState(clickInfo);
   useEffect(() => {
     const map: naver.maps.Map = new window.naver.maps.Map('map', mapOptions);
     naver.maps.Event.addListener(map, 'click', function (e) {
@@ -103,16 +109,34 @@ const DashboardPage = () => {
           clickable: true,
         });
 
-        naver.maps.Event.addListener(marker, 'click', function (e) {
-          if (info.getMap()) {
-            info.close();
-          } else {
-            info.open(map, marker);
-          }
-        });
+        infoWindows.push(info);
+        markers.push(marker);
       },
     );
+
+    function getClickMarker(seq: number) {
+      return function (e: any) {
+        let marker = markers[seq];
+        let infoWindow = infoWindows[seq];
+        if (infoWindow.getMap()) {
+          infoWindow.close();
+          setClicked(-1);
+        } else {
+          setClicked(seq);
+          infoWindow.open(map, marker);
+        }
+      };
+    }
+
+    markers.forEach((marker, idx) => {
+      naver.maps.Event.addListener(marker, 'click', getClickMarker(idx));
+    });
   }, []);
+
+  useEffect(() => {
+    console.log(clicked);
+    if (clicked >= 0) markers[clicked].trigger('click');
+  }, [clicked]);
   return (
     <>
       <Header>도움말</Header>
