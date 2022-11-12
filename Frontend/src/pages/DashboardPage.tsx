@@ -13,7 +13,7 @@ const DashboardBlock = styled.div`
   display: flex;
   width: 100%;
   height: 100%;
-  margin-top: 5.2rem;
+  padding-top: 5.2rem;
 `;
 
 const Map = styled.div`
