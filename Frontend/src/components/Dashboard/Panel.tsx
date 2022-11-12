@@ -46,7 +46,7 @@ const Panel = () => {
   return (
     <PanelBlock>
       <h3>광고 시작하기</h3>
-      <AddButton to="../Write">
+      <AddButton to="../Write/Title">
         <Plus width="2rem" height="2rem" />새 광고 만들기
       </AddButton>
       <h3>최근 광고</h3>

@@ -18,7 +18,7 @@ const EditBlock = styled.div`
   }
 `;
 
-const Edit = () => {
+const TitleEdit = () => {
   const [title, setTitle] = useState('');
   return (
     <EditBlock>
@@ -30,4 +30,4 @@ const Edit = () => {
   );
 };
 
-export default Edit;
+export default TitleEdit;

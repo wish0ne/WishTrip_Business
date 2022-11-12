@@ -1,24 +1,24 @@
 import styled from 'styled-components';
 import Header from '../components/common/Header';
 import Preview from '../components/Write/Preview';
-import Edit from '../components/Write/Edit';
+import PostEdit from '../components/Write/PostEdit';
 
-const WriteAdPageBlock = styled.div`
+const WritePostPageBlock = styled.div`
   padding-top: 5.2rem;
   height: 100%;
   width: 100%;
   display: flex;
 `;
 
-const WriteAdPage = () => {
+const WritePostPage = () => {
   return (
     <>
       <Header>도움말</Header>
-      <WriteAdPageBlock>
+      <WritePostPageBlock>
         <Preview />
-        <Edit />
-      </WriteAdPageBlock>
+        <PostEdit />
+      </WritePostPageBlock>
     </>
   );
 };
-export default WriteAdPage;
+export default WritePostPage;

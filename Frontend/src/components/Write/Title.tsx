@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import palette from '../../lib/palette';
 import { ReactComponent as Left } from '../../assets/images/left.svg';
@@ -16,9 +16,10 @@ const TitleBlock = styled.div`
   }
 `;
 
-const Back = styled(Link)`
+const Back = styled.button`
   display: flex;
   align-items: center;
+  background: white;
   & > span {
     font-family: 'Medium';
     font-size: 1.3rem;
@@ -32,10 +33,11 @@ interface TitleProps {
 }
 
 const Title = ({ children }: TitleProps) => {
+  const navigate = useNavigate();
   return (
     <TitleBlock>
       <h1>{children}</h1>
-      <Back to="../Dashboard">
+      <Back onClick={() => navigate(-1)}>
         <Left width="2rem" height="2rem" />
         <span>이전 페이지</span>
       </Back>
