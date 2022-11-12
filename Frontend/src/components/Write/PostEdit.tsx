@@ -2,10 +2,8 @@ import styled from 'styled-components';
 import palette from '../../lib/palette';
 import Title from './Title';
 import Button from './Button';
-import Input from './Input';
-import { useState } from 'react';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { editImage } from '../../recoil/atom';
+import { useRecoilState } from 'recoil';
+import { editContent, editImage } from '../../recoil/atom';
 
 const EditBlock = styled.div`
   width: 50%;
@@ -47,10 +45,13 @@ const EditBlock = styled.div`
 `;
 
 const PostEdit = () => {
-  const [title, setTitle] = useState('');
-  const setEditImage = useSetRecoilState(editImage);
+  const [image, setEditImage] = useRecoilState(editImage);
+  const [content, setEditContent] = useRecoilState(editContent);
   const handleUploadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) setEditImage(URL.createObjectURL(e.target.files[0]));
+  };
+  const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setEditContent(e.target.value);
   };
   return (
     <EditBlock>
@@ -59,8 +60,8 @@ const PostEdit = () => {
       <label htmlFor="inputFile">파일 업로드</label>
       <input type="file" id="inputFile" onChange={handleUploadFile} />
       <h2>포스트 내용 작성</h2>
-      <textarea />
-      <Button active={title !== ''}>다음</Button>
+      <textarea onChange={handleInput} value={content} />
+      <Button active={content !== '' && image !== ''}>다음</Button>
     </EditBlock>
   );
 };

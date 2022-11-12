@@ -3,7 +3,8 @@ import palette from '../../lib/palette';
 import Title from './Title';
 import Button from './Button';
 import Input from './Input';
-import { useState } from 'react';
+import { editTitle } from '../../recoil/atom';
+import { useRecoilState } from 'recoil';
 
 const EditBlock = styled.div`
   width: 50%;
@@ -19,7 +20,7 @@ const EditBlock = styled.div`
 `;
 
 const TitleEdit = () => {
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useRecoilState(editTitle);
   return (
     <EditBlock>
       <Title>광고 정보를 입력하세요</Title>

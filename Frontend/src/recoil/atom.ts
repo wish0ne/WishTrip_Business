@@ -5,6 +5,11 @@ export const clickInfo = atom({
   default: 0,
 });
 
+export const editTitle = atom({
+  key: 'editTitle',
+  default: '',
+});
+
 export const editImage = atom({
   key: 'editImage',
   default: '',

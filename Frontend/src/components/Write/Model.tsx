@@ -4,7 +4,7 @@ import EmptyContent from './EmptyContent';
 import cafe from '../../assets/images/cafe.jpg';
 import { ReactComponent as Heart } from '../../assets/images/regular-heart.svg';
 import Comment from './Comment';
-import { editImage } from '../../recoil/atom';
+import { editContent, editImage } from '../../recoil/atom';
 import { useRecoilValue } from 'recoil';
 
 const ModelBlock = styled.div`
@@ -29,7 +29,7 @@ const Image = styled.img`
   border-radius: 1rem 1rem 0 0;
 `;
 
-const ContentBlock = styled.div`
+const BodyBlock = styled.div`
   padding: 1.5rem 1.8rem;
   background-color: white;
 `;
@@ -65,14 +65,26 @@ const WriterIcon = styled.img`
   margin-right: 0.7rem;
 `;
 
-const Body = styled.div``;
+const ContentBlock = styled.div`
+  font-family: 'Medium';
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: ${palette.default2};
+  white-space: pre;
+`;
+
+const Content = () => {
+  const content = useRecoilValue(editContent);
+  return <ContentBlock>{content}</ContentBlock>;
+};
 
 const Model = () => {
   const image = useRecoilValue(editImage);
+  const content = useRecoilValue(editContent);
   return (
     <ModelBlock>
       <ImageBlock>{image !== '' && <Image src={image} />}</ImageBlock>
-      <ContentBlock>
+      <BodyBlock>
         <Writer>
           <WriterIcon src={cafe} />
           <WriterInfo>
@@ -81,11 +93,9 @@ const Model = () => {
           </WriterInfo>
           <Heart width="2.4rem" height="2.4rem" />
         </Writer>
-        <Body>
-          <EmptyContent />
-        </Body>
+        {content === '' ? <EmptyContent /> : <Content />}
         <Comment />
-      </ContentBlock>
+      </BodyBlock>
     </ModelBlock>
   );
 };
