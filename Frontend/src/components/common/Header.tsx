@@ -12,6 +12,7 @@ const StyledHeader = styled.div`
   box-shadow: 0 0.4rem 0.8rem rgba(58, 58, 58, 0.1);
   justify-content: space-between;
   z-index: 10;
+  height: 5.2rem;
 `;
 
 const HeaderTitle = styled.span`
@@ -23,13 +24,14 @@ const HeaderTitle = styled.span`
 `;
 
 const Button = styled.button`
-  padding: 1.2rem;
+  padding: 0 1.2rem;
   background-color: ${palette.primary3};
   border-radius: 0.6rem;
   font-family: 'Medium';
   font-size: 1.3rem;
   color: white;
   border: none;
+  height: 100%;
 `;
 
 const User = styled.span`
@@ -43,6 +45,7 @@ const User = styled.span`
 const Container = styled.div`
   display: flex;
   align-items: center;
+  height: 100%;
 `;
 
 interface HeaderPropsType {
