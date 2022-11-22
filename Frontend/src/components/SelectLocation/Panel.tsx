@@ -1,8 +1,14 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import palette from '../../lib/palette';
 import Title from '../common/Title';
 import Button from '../common/Button';
 import Selectbox from './Selectbox';
+import {
+  mainCategory,
+  middleCategory,
+  subCategory,
+} from '../../lib/api/client';
 
 const PanelBlock = styled.div`
   width: 50%;
@@ -35,17 +41,66 @@ const Line = styled.div`
   margin: 2.4rem 0;
 `;
 
-const bigOptions = [''];
-
 const Panel = () => {
+  //카테고리
+  const [mainList, setMainList] = useState([]);
+  const [middleList, setMiddleList] = useState([]);
+  const [subList, setSubList] = useState([]);
+
+  //선택값
+  const [main, setMain] = useState('');
+  const [middle, setMiddle] = useState('');
+  const [sub, setSub] = useState('');
+
+  useEffect(() => {
+    const getMain = async () => {
+      const main = await mainCategory();
+      console.log(main);
+      setMainList(main);
+    };
+    getMain();
+  }, []);
+
+  //중분류 불러오기
+  useEffect(() => {
+    //초기화
+    setMiddleList([]);
+    setMiddle('');
+    const getMiddle = async () => {
+      const middle = await middleCategory(main);
+      console.log(middle);
+      setMiddleList(middle);
+    };
+    if (main !== '') getMiddle();
+  }, [main]);
+
+  //소분류 불러오기
+  useEffect(() => {
+    //초기화
+    setSubList([]);
+    setSub('');
+    const getSub = async () => {
+      const sub = await subCategory(middle);
+      console.log(sub);
+      setSubList(sub);
+    };
+    if (middle !== '') getSub();
+  }, [middle]);
+
   return (
     <PanelBlock>
       <Title>광고 지역을 선택하세요.</Title>
       <h2>분류 선택</h2>
       <SelectContainer>
-        <Selectbox options={bigOptions}>대분류</Selectbox>
-        <Selectbox>중분류</Selectbox>
-        <Selectbox>소분류</Selectbox>
+        <Selectbox options={mainList} value={main} handleChange={setMain}>
+          대분류
+        </Selectbox>
+        <Selectbox options={middleList} value={middle} handleChange={setMiddle}>
+          중분류
+        </Selectbox>
+        <Selectbox options={subList} value={sub} handleChange={setSub}>
+          소분류
+        </Selectbox>
       </SelectContainer>
       <Line />
       <h3>지도에서 원하는 광고 지역을 선택해주세요.</h3>
