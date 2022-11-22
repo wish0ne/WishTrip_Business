@@ -1,9 +1,8 @@
 import Router from "koa-router";
-import { create, read } from "./store.ctrl.js";
+import { readMainNames } from "./store.ctrl.js";
 
 const store = new Router();
 
-store.get("/:id", read);
-store.post("/", create);
+store.get("/category/main", readMainNames);
 
 export default store;
