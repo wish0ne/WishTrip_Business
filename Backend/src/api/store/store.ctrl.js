@@ -1,6 +1,6 @@
 import Store from "../../models/store.js";
 
-export const readMainNames = async (ctx) => {
+export const readMainCategory = async (ctx) => {
   try {
     const codes = await Store.find().distinct("main_code").exec();
     const result = await Promise.all(
@@ -25,14 +25,14 @@ export const readMainNames = async (ctx) => {
   }
 };
 
-export const readMiddleNames = async (ctx) => {
+export const readMiddleCategory = async (ctx) => {
   const { code } = ctx.params;
   try {
-    const middles_code = await Store.distinct("middle_code", {
+    const middle_codes = await Store.distinct("middle_code", {
       middle_code: { $regex: code },
     }).exec();
     const result = await Promise.all(
-      middles_code.map(async (code) => {
+      middle_codes.map(async (code) => {
         const { middle_name } = await Store.findOne(
           { middle_code: code },
           { middle_name: 1, _id: 0 }
@@ -43,7 +43,35 @@ export const readMiddleNames = async (ctx) => {
         };
       })
     );
-    if (!middles_code) {
+    if (!middle_codes) {
+      ctx.status = 404;
+      return;
+    }
+    ctx.body = result;
+  } catch (e) {
+    ctx.throw(500, e);
+  }
+};
+
+export const readSubCategory = async (ctx) => {
+  const { code } = ctx.params;
+  try {
+    const sub_codes = await Store.distinct("sub_code", {
+      sub_code: { $regex: code },
+    }).exec();
+    const result = await Promise.all(
+      sub_codes.map(async (code) => {
+        const { sub_name } = await Store.findOne(
+          { sub_code: code },
+          { sub_name: 1, _id: 0 }
+        ).exec();
+        return {
+          sub_code: code,
+          sub_name: sub_name,
+        };
+      })
+    );
+    if (!sub_codes) {
       ctx.status = 404;
       return;
     }
