@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import palette from '../lib/palette';
 import Header from '../components/common/Header';
 import Panel from '../components/SelectLocation/Panel';
+import { useRecoilState } from 'recoil';
+import { selectedCode } from '../recoil/atom';
+import { getStores } from '../lib/api/client';
 
 const PageBlock = styled.div`
   display: flex;
@@ -44,7 +47,7 @@ const center: naver.maps.LatLng = new naver.maps.LatLng(37.503545, 127.044878);
 
 const mapOptions = {
   center: center,
-  zoom: 15,
+  zoom: 11,
   zoomControl: true,
   zoomControlOptions: {
     position: naver.maps.Position.TOP_LEFT,
@@ -53,12 +56,31 @@ const mapOptions = {
 };
 
 const SelectLocationPage = () => {
+  const [code, setCode] = useRecoilState(selectedCode);
+  const [stores, setStores] = useState<
+    { latitude: number; longitude: number }[]
+  >([]);
+
   useEffect(() => {
     const map: naver.maps.Map = new window.naver.maps.Map('map', mapOptions);
     naver.maps.Event.addListener(map, 'click', function (e) {
       console.log(e.coord.lat(), e.coord.lng());
     });
+    stores.forEach((store) => {
+      new naver.maps.Marker({
+        position: new naver.maps.LatLng(store.latitude, store.longitude),
+        map: map,
+      });
+    });
   });
+
+  useEffect(() => {
+    if (code !== '') {
+      getStores(code).then((data) => {
+        setStores(data);
+      });
+    }
+  }, [code]);
 
   return (
     <>

@@ -33,4 +33,14 @@ export const subCategory = async (code) => {
   }
 };
 
+//선택된 카테고리에 해당되는 상권 목록 불러오기
+export const getStores = async (code) => {
+  try {
+    const { data } = await client.get(`${code}`);
+    return data;
+  } catch (e) {
+    throw e;
+  }
+};
+
 export default client;

@@ -19,3 +19,8 @@ export const editContent = atom({
   key: 'editContent',
   default: '',
 });
+
+export const selectedCode = atom({
+  key: 'selectedCode',
+  default: '',
+});

@@ -9,6 +9,8 @@ import {
   middleCategory,
   subCategory,
 } from '../../lib/api/client';
+import { useRecoilState } from 'recoil';
+import { selectedCode } from '../../recoil/atom';
 
 const PanelBlock = styled.div`
   width: 50%;
@@ -42,6 +44,7 @@ const Line = styled.div`
 `;
 
 const Panel = () => {
+  const [code, setCode] = useRecoilState(selectedCode);
   //카테고리
   const [mainList, setMainList] = useState([]);
   const [middleList, setMiddleList] = useState([]);
@@ -86,6 +89,13 @@ const Panel = () => {
     };
     if (middle !== '') getSub();
   }, [middle]);
+
+  //선택코드 업데이트
+  useEffect(() => {
+    if (sub !== '') setCode(sub);
+    else if (middle !== '') setCode(middle);
+    else if (main !== '') setCode(main);
+  }, [main, middle, sub, setCode]);
 
   return (
     <PanelBlock>
