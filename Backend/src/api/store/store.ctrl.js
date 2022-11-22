@@ -80,3 +80,33 @@ export const readSubCategory = async (ctx) => {
     ctx.throw(500, e);
   }
 };
+
+export const readStores = async (ctx) => {
+  const { code } = ctx.params;
+  try {
+    let result;
+    if (code.length === 1) {
+      result = await Store.find(
+        { main_code: { $regex: code } },
+        { longitude: 1, latitude: 1 }
+      );
+    } else if (code.length === 3) {
+      result = await Store.find(
+        { middle_code: { $regex: code } },
+        { longitude: 1, latitude: 1 }
+      );
+    } else if (code.length === 6) {
+      result = await Store.find(
+        { sub_code: { $regex: code } },
+        { longitude: 1, latitude: 1 }
+      );
+    }
+    if (!result) {
+      ctx.status = 404;
+      return;
+    }
+    ctx.body = result;
+  } catch (e) {
+    ctx.throw(500, e);
+  }
+};
