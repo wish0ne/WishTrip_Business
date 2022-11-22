@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import palette from '../../lib/palette';
-import Title from './Title';
-import Button from './Button';
+import Title from '../common/Title';
+import Button from '../common/Button';
 import { useRecoilState } from 'recoil';
 import { editContent, editImage } from '../../recoil/atom';
 
