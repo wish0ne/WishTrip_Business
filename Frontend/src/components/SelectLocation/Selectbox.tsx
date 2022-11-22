@@ -2,10 +2,9 @@ import { ReactNode } from 'react';
 import styled from 'styled-components';
 import palette from '../../lib/palette';
 import { ReactComponent as Down } from '../../assets/images/menu-down.svg';
-import { urlToHttpOptions } from 'url';
 
 const Select = styled.select`
-  font-family: 'Regular';
+  font-family: 'Medium';
   font-size: 1.3rem;
   border: none;
   width: 100%;
@@ -39,7 +38,8 @@ const Selectbox = ({ children, options }: SelectboxProps) => {
       <Down width="1.6rem" height="1.6rem" />
       <Select>
         <option>{children}</option>
-        {options && options.map((option) => <option>{option}</option>)}
+        {options &&
+          options.map((option) => <option key={option}>{option}</option>)}
       </Select>
     </SelectWrap>
   );

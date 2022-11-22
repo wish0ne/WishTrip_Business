@@ -10,13 +10,13 @@ const PanelBlock = styled.div`
   padding: 8rem 3.2rem;
   position: relative;
   & > h2 {
-    font-family: 'Regular';
+    font-family: 'Medium';
     font-size: 1.2rem;
     color: ${palette.default1};
     margin-bottom: 0.4rem;
   }
   & > h3 {
-    font-family: 'Regular';
+    font-family: 'Medium';
     font-size: 1.4rem;
     line-height: 2rem;
     color: ${palette.primary3};
