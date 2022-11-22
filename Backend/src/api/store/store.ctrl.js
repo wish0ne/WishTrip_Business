@@ -10,8 +10,8 @@ export const readMainCategory = async (ctx) => {
           { main_name: 1, _id: 0 }
         ).exec();
         return {
-          main_code: code,
-          main_name: main_name,
+          code: code,
+          name: main_name,
         };
       })
     );
@@ -38,8 +38,8 @@ export const readMiddleCategory = async (ctx) => {
           { middle_name: 1, _id: 0 }
         ).exec();
         return {
-          middle_code: code,
-          middle_name: middle_name,
+          code: code,
+          name: middle_name,
         };
       })
     );
@@ -66,8 +66,8 @@ export const readSubCategory = async (ctx) => {
           { sub_name: 1, _id: 0 }
         ).exec();
         return {
-          sub_code: code,
-          sub_name: sub_name,
+          code: code,
+          name: sub_name,
         };
       })
     );
