@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import palette from '../lib/palette';
 import Header from '../components/common/Header';
@@ -43,18 +43,6 @@ const Map = styled.div`
 
 const { naver } = window;
 
-const center: naver.maps.LatLng = new naver.maps.LatLng(37.503545, 127.044878);
-
-const mapOptions = {
-  center: center,
-  zoom: 15,
-  zoomControl: true,
-  zoomControlOptions: {
-    position: naver.maps.Position.TOP_LEFT,
-    style: naver.maps.ZoomControlStyle.SMALL,
-  },
-};
-
 const SelectLocationPage = () => {
   const [code, setCode] = useRecoilState(selectedCode);
   const [stores, setStores] = useState<naver.maps.LatLng[]>([]);
@@ -62,11 +50,25 @@ const SelectLocationPage = () => {
   const [radius, setRadius] = useRecoilState(selectRadius);
   const [address, setAddress] = useState<string>('');
 
+  const [center, setCenter] = useState<naver.maps.LatLng>(
+    new naver.maps.LatLng(37.503545, 127.044878),
+  );
+  const [zoom, setZoom] = useState<number>(11);
+
   useEffect(() => {
-    const map: naver.maps.Map = new window.naver.maps.Map('map', mapOptions);
+    const map: naver.maps.Map = new window.naver.maps.Map('map', {
+      center: center,
+      zoom: zoom,
+      zoomControl: true,
+      zoomControlOptions: {
+        position: naver.maps.Position.TOP_LEFT,
+        style: naver.maps.ZoomControlStyle.SMALL,
+      },
+    });
     naver.maps.Event.addListener(map, 'click', function (e) {
       setSelect({ lat: e.coord.lat(), lng: e.coord.lng() });
-      //console.log(e.coord.lat(), e.coord.lng());
+      setCenter(new naver.maps.LatLng(e.coord._lat, e.coord._lng));
+      setZoom(15);
     });
 
     naver.maps.Event.once(map, 'init', () => {

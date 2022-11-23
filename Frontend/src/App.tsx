@@ -6,6 +6,7 @@ import DashboardPage from './pages/DashboardPage';
 import WriteTitlePage from './pages/WriteTitlePage';
 import SelectLocationPage from './pages/SelectLocationPage';
 import WritePostPage from './pages/WritePostPage';
+import SelectMoneyPage from './pages/SelectMoneyPage';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Route path="/Write/Title" element={<WriteTitlePage />} />
       <Route path="/Write/Post" element={<WritePostPage />} />
       <Route path="/Select" element={<SelectLocationPage />} />
+      <Route path="/Select/Detail" element={<SelectMoneyPage />} />
     </Routes>
   );
 }

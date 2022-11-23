@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Slider from 'rc-slider';
-import Range from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import palette from '../../lib/palette';
 import Title from '../common/Title';
@@ -14,6 +13,7 @@ import {
 } from '../../lib/api/client';
 import { useRecoilState } from 'recoil';
 import { selectedCode, selectRadius } from '../../recoil/atom';
+import { useNavigate } from 'react-router-dom';
 
 const PanelBlock = styled.div`
   width: 50%;
@@ -117,6 +117,8 @@ const Panel = ({ address }: PanelProps) => {
 
   const [radius, setRadius] = useRecoilState(selectRadius);
 
+  const navigate = useNavigate();
+
   const handleRadius = (e: number | number[]) => {
     if (!Array.isArray(e)) setRadius(e);
   };
@@ -206,7 +208,7 @@ const Panel = ({ address }: PanelProps) => {
           </RadiusContainer>
         </>
       )}
-      <Button active={main !== ''}>다음</Button>
+      <Button active={address !== ''}>다음</Button>
     </PanelBlock>
   );
 };

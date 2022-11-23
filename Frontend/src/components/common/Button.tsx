@@ -34,6 +34,7 @@ const Button = ({ children, active }: ButtonProps) => {
   const location = useLocation();
   const handleClick = () => {
     if (location.pathname === '/Write/Title') navigate('/Write/Post');
+    else if (location.pathname === '/Select') navigate('./Detail');
     else navigate('../Select');
   };
   return (
