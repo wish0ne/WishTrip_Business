@@ -3,6 +3,7 @@ import palette from '../../lib/palette';
 import Title from '../common/Title';
 import Button from '../common/Button';
 import { useRef, useState } from 'react';
+import { start } from 'repl';
 
 const PanelBlock = styled.div`
   width: 50%;
@@ -83,6 +84,13 @@ const Margin = styled.div`
   margin-bottom: 2.4rem;
 `;
 
+const DateContainer = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 2.4rem;
+`;
+
 function toStringByFormatting(source: Date, delimiter = '.') {
   const year = source.getFullYear();
   const month = source.getMonth() + 1;
@@ -91,10 +99,19 @@ function toStringByFormatting(source: Date, delimiter = '.') {
   return [year, month, day].join(delimiter);
 }
 
+const getDateDiff = (date1: Date, date2: Date) => {
+  const diffDate = date1.getTime() - date2.getTime();
+
+  return Math.abs(diffDate / (1000 * 60 * 60 * 24)); // 밀리세컨 * 초 * 분 * 시 = 일
+};
+
 const Panel = () => {
   const [type, setType] = useState<string>('budget');
   const [budget, setBudget] = useState<string>('');
   const [date, setDate] = useState<Date>();
+
+  const [startDate, setStartDate] = useState<Date>();
+  const [endDate, setEndDate] = useState<Date>();
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value: string = e.target.value;
@@ -133,20 +150,48 @@ const Panel = () => {
             ></input>
           </Container>
           <Line />
-          <Margin>
-            <Text>
-              입력하신 예산에 따른 예상 광고 기간은 <Bold>약 14일</Bold>입니다.
-            </Text>
-            {date && (
-              <Text>{`(${toStringByFormatting(date)} ~ ${toStringByFormatting(
-                new Date(date.setDate(date.getDate() + 14)),
-              )})`}</Text>
-            )}
-          </Margin>
-          <Bold>계속 진행하시려면 다음 버튼을 눌러주세요.</Bold>
+          <Text>
+            입력하신 예산에 따른 예상 광고 기간은 <Bold>약 14일</Bold>입니다.
+          </Text>
+          {date && (
+            <Text>{`(${toStringByFormatting(date)} ~ ${toStringByFormatting(
+              new Date(date.setDate(date.getDate() + 14)),
+            )})`}</Text>
+          )}
         </>
       )}
-
+      {type === 'period' && (
+        <>
+          <h2>광고 기간 선택</h2>
+          <DateContainer>
+            <Container>
+              <input
+                type="date"
+                onChange={(e) => setStartDate(new Date(e.target.value))}
+              ></input>
+            </Container>
+            <span>~</span>
+            <Container>
+              <input
+                type="date"
+                onChange={(e) => setEndDate(new Date(e.target.value))}
+              ></input>
+            </Container>
+          </DateContainer>
+          {startDate && endDate && (
+            <Text>
+              {`입력하신 광고 기간(${getDateDiff(
+                startDate,
+                endDate,
+              )}일)에 따른 예산은 `}
+              <Bold>300,000원</Bold>입니다.
+            </Text>
+          )}
+          <Line />
+        </>
+      )}
+      <Margin />
+      <Bold>계속 진행하시려면 다음 버튼을 눌러주세요.</Bold>
       <Button active={false}>다음</Button>
     </PanelBlock>
   );
