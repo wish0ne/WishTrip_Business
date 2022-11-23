@@ -96,6 +96,25 @@ const SelectLocationPage = () => {
         fillOpacity: 0.8,
         strokeWeight: 0,
       });
+
+      //선택 지역 주소 검색
+      naver.maps.Service.reverseGeocode(
+        {
+          coords: new naver.maps.LatLng(select.lat, select.lng),
+        },
+        function (status, response) {
+          if (status !== naver.maps.Service.Status.OK) {
+            return alert('Something wrong!');
+          }
+
+          var result = response.v2, // 검색 결과의 컨테이너
+            items = result.results, // 검색 결과의 배열
+            address = result.address; // 검색 결과로 만든 주소
+
+          // do Something
+          console.log(address.jibunAddress + address.roadAddress);
+        },
+      );
     }
   });
 
