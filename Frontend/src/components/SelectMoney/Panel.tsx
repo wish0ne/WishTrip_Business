@@ -2,8 +2,9 @@ import styled from 'styled-components';
 import palette from '../../lib/palette';
 import Title from '../common/Title';
 import Button from '../common/Button';
-import { useRef, useState } from 'react';
-import { start } from 'repl';
+import { useState } from 'react';
+import PayPanel from './PayPanel';
+import SmallButton from './Button';
 
 const PanelBlock = styled.div`
   width: 50%;
@@ -113,27 +114,33 @@ const Panel = () => {
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
 
+  const [pay, setPay] = useState(false);
+
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value: string = e.target.value;
     const removedCommaValue: number = Number(value.replaceAll(',', ''));
     setBudget(removedCommaValue.toLocaleString());
   };
+
+  if (pay) {
+    return <PayPanel />;
+  }
   return (
     <PanelBlock>
       <Title>광고 기간 또는 예산을 선택하세요.</Title>
       <ButtonContainer>
-        <SelectBtn
+        <SmallButton
           selected={type === 'budget'}
-          onClick={() => setType('budget')}
+          handleClick={() => setType('budget')}
         >
           예산 선택
-        </SelectBtn>
-        <SelectBtn
+        </SmallButton>
+        <SmallButton
           selected={type === 'period'}
-          onClick={() => setType('period')}
+          handleClick={() => setType('period')}
         >
           기간 선택
-        </SelectBtn>
+        </SmallButton>
       </ButtonContainer>
       {type === 'budget' && (
         <>
@@ -195,16 +202,18 @@ const Panel = () => {
       )}
       <Margin />
       <Bold>계속 진행하시려면 다음 버튼을 눌러주세요.</Bold>
-      <Button
-        active={
-          (type === 'budget' && budget !== '' && date !== undefined) ||
-          (type === 'period' &&
-            startDate !== undefined &&
-            endDate !== undefined)
-        }
-      >
-        다음
-      </Button>
+      <div onClick={() => setPay(true)}>
+        <Button
+          active={
+            (type === 'budget' && budget !== '' && date !== undefined) ||
+            (type === 'period' &&
+              startDate !== undefined &&
+              endDate !== undefined)
+          }
+        >
+          다음
+        </Button>
+      </div>
     </PanelBlock>
   );
 };
