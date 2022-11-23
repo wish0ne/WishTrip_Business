@@ -96,7 +96,7 @@ const DashboardPage = () => {
           backgroundColor: 'transparent',
           disableAnchor: true,
           borderWidth: 0,
-          pixelOffset: { x: 149, y: 10 },
+          pixelOffset: { x: 149, y: 0 },
         });
 
         new naver.maps.Circle({

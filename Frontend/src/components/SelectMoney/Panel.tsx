@@ -126,7 +126,15 @@ const Panel = () => {
   };
 
   if (pay) {
-    return <PayPanel />;
+    return (
+      <PayPanel
+        pay={
+          type === 'budget'
+            ? Number(budget.replaceAll(',', ''))
+            : getDateDiff(startDate!, endDate!) * radius
+        }
+      />
+    );
   }
   return (
     <PanelBlock>

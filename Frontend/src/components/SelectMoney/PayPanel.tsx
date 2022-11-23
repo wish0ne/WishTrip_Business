@@ -52,7 +52,7 @@ const Margin = styled.div`
   margin-bottom: 2.4rem;
 `;
 
-const PayPanel = () => {
+const PayPanel = ({ pay }: { pay: number }) => {
   return (
     <PanelBlock>
       <Title>결제를 완료하면 광고가 시작됩니다.</Title>
@@ -65,7 +65,7 @@ const PayPanel = () => {
       </SmallButton>
       <Container></Container>
       <Text>총 결제 금액</Text>
-      <Bold>300,000원</Bold>
+      <Bold>{pay.toLocaleString('ko-KR')}원</Bold>
       <Margin />
       <h6>결제 내용을 확인하였으며, 정보 제공 등에 동의합니다.</h6>
       <Margin />
