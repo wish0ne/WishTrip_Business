@@ -47,7 +47,7 @@ const center: naver.maps.LatLng = new naver.maps.LatLng(37.503545, 127.044878);
 
 const mapOptions = {
   center: center,
-  zoom: 11,
+  zoom: 15,
   zoomControl: true,
   zoomControlOptions: {
     position: naver.maps.Position.TOP_LEFT,
@@ -58,11 +58,14 @@ const mapOptions = {
 const SelectLocationPage = () => {
   const [code, setCode] = useRecoilState(selectedCode);
   const [stores, setStores] = useState<naver.maps.LatLng[]>([]);
+  const [select, setSelect] = useState<{ lat: number; lng: number }>(); //선택한 지역 좌표
+  const [radius, setRadius] = useState<number>(1000);
 
   useEffect(() => {
     const map: naver.maps.Map = new window.naver.maps.Map('map', mapOptions);
     naver.maps.Event.addListener(map, 'click', function (e) {
-      console.log(e.coord.lat(), e.coord.lng());
+      setSelect({ lat: e.coord.lat(), lng: e.coord.lng() });
+      //console.log(e.coord.lat(), e.coord.lng());
     });
 
     naver.maps.Event.once(map, 'init', () => {
@@ -73,6 +76,27 @@ const SelectLocationPage = () => {
         opacity: 0.8,
       });
     });
+
+    //선택 지역 오버레이
+    if (select) {
+      new naver.maps.Circle({
+        map: map,
+        center: new naver.maps.LatLng(select.lat, select.lng),
+        radius: radius,
+        fillColor: '#ffffff',
+        fillOpacity: 0.6,
+        strokeWeight: 3,
+        strokeColor: '#00d8ec',
+      });
+      new naver.maps.Circle({
+        map: map,
+        center: new naver.maps.LatLng(select.lat, select.lng),
+        radius: 20,
+        fillColor: '#00d8ec',
+        fillOpacity: 0.8,
+        strokeWeight: 0,
+      });
+    }
   });
 
   useEffect(() => {
