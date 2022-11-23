@@ -114,7 +114,7 @@ const Panel = () => {
       </SelectContainer>
       <Line />
       <h3>지도에서 원하는 광고 지역을 선택해주세요.</h3>
-      <Button active={false}>다음</Button>
+      <Button active={main !== ''}>다음</Button>
     </PanelBlock>
   );
 };

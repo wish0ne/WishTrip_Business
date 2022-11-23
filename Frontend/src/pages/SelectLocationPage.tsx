@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import palette from '../lib/palette';
 import Header from '../components/common/Header';
@@ -57,19 +57,20 @@ const mapOptions = {
 
 const SelectLocationPage = () => {
   const [code, setCode] = useRecoilState(selectedCode);
-  const [stores, setStores] = useState<
-    { latitude: number; longitude: number }[]
-  >([]);
+  const [stores, setStores] = useState<naver.maps.LatLng[]>([]);
 
   useEffect(() => {
     const map: naver.maps.Map = new window.naver.maps.Map('map', mapOptions);
     naver.maps.Event.addListener(map, 'click', function (e) {
       console.log(e.coord.lat(), e.coord.lng());
     });
-    stores.forEach((store) => {
-      new naver.maps.Marker({
-        position: new naver.maps.LatLng(store.latitude, store.longitude),
+
+    naver.maps.Event.once(map, 'init', () => {
+      new naver.maps.visualization.DotMap({
+        data: stores,
         map: map,
+        fillColor: '#0086e7',
+        opacity: 0.8,
       });
     });
   });
@@ -77,7 +78,11 @@ const SelectLocationPage = () => {
   useEffect(() => {
     if (code !== '') {
       getStores(code).then((data) => {
-        setStores(data);
+        const result = data.map(
+          (coord: any) =>
+            new naver.maps.LatLng(coord.latitude, coord.longitude),
+        );
+        setStores(result);
       });
     }
   }, [code]);
