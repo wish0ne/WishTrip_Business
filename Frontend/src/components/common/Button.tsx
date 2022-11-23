@@ -27,9 +27,10 @@ const ButtonBlock = styled.button<{ active: boolean }>`
 interface ButtonProps {
   children: ReactNode;
   active: boolean;
+  onClick?: () => void;
 }
 
-const Button = ({ children, active }: ButtonProps) => {
+const Button = ({ children, active, onClick }: ButtonProps) => {
   const navigate = useNavigate();
   const location = useLocation();
   const handleClick = () => {
@@ -38,7 +39,11 @@ const Button = ({ children, active }: ButtonProps) => {
     else navigate('../Select');
   };
   return (
-    <ButtonBlock active={active} disabled={!active} onClick={handleClick}>
+    <ButtonBlock
+      active={active}
+      disabled={!active}
+      onClick={onClick || handleClick}
+    >
       <span>{children}</span>
       <Right />
     </ButtonBlock>

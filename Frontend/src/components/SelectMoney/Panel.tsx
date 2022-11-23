@@ -5,6 +5,8 @@ import Button from '../common/Button';
 import { useState } from 'react';
 import PayPanel from './PayPanel';
 import SmallButton from './Button';
+import { useRecoilValue } from 'recoil';
+import { selectRadius } from '../../recoil/atom';
 
 const PanelBlock = styled.div`
   width: 50%;
@@ -116,6 +118,7 @@ const Panel = () => {
 
   const [pay, setPay] = useState(false);
 
+  const radius = useRecoilValue(selectRadius);
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value: string = e.target.value;
     const removedCommaValue: number = Number(value.replaceAll(',', ''));
@@ -158,13 +161,23 @@ const Panel = () => {
             ></input>
           </Container>
           <Line />
-          <Text>
-            입력하신 예산에 따른 예상 광고 기간은 <Bold>약 14일</Bold>입니다.
-          </Text>
+
           {date && (
-            <Text>{`(${toStringByFormatting(date)} ~ ${toStringByFormatting(
-              new Date(date.setDate(date.getDate() + 14)),
-            )})`}</Text>
+            <>
+              <Text>
+                입력하신 예산에 따른 예상 광고 기간은
+                <Bold>
+                  {' '}
+                  약 {Math.floor(Number(budget.replaceAll(',', '')) / radius)}일
+                </Bold>
+                입니다.
+              </Text>
+              <Text>{`(${toStringByFormatting(date)} ~ ${toStringByFormatting(
+                new Date(date.setDate(date.getDate() + 14)),
+              )})`}</Text>
+              <Margin />
+              <Bold>계속 진행하시려면 다음 버튼을 눌러주세요.</Bold>
+            </>
           )}
         </>
       )}
@@ -189,31 +202,33 @@ const Panel = () => {
             </Container>
           </DateContainer>
           {startDate && endDate && (
-            <Text>
-              {`입력하신 광고 기간(${getDateDiff(
-                startDate,
-                endDate,
-              )}일)에 따른 예산은 `}
-              <Bold>300,000원</Bold>입니다.
-            </Text>
+            <>
+              <Text>
+                {`입력하신 광고 기간(${getDateDiff(
+                  startDate,
+                  endDate,
+                )}일)에 따른 예산은 `}
+                <Bold>{getDateDiff(startDate, endDate) * radius}원</Bold>입니다.
+              </Text>
+              <Margin />
+              <Bold>계속 진행하시려면 다음 버튼을 눌러주세요.</Bold>
+            </>
           )}
-          <Line />
         </>
       )}
       <Margin />
-      <Bold>계속 진행하시려면 다음 버튼을 눌러주세요.</Bold>
-      <div onClick={() => setPay(true)}>
-        <Button
-          active={
-            (type === 'budget' && budget !== '' && date !== undefined) ||
-            (type === 'period' &&
-              startDate !== undefined &&
-              endDate !== undefined)
-          }
-        >
-          다음
-        </Button>
-      </div>
+
+      <Button
+        active={
+          (type === 'budget' && budget !== '' && date !== undefined) ||
+          (type === 'period' &&
+            startDate !== undefined &&
+            endDate !== undefined)
+        }
+        onClick={() => setPay(true)}
+      >
+        다음
+      </Button>
     </PanelBlock>
   );
 };
