@@ -59,6 +59,10 @@ const Address = styled.div`
 
 const SliderContainer = styled.div`
   width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-right: 0.8rem;
   & > div {
     display: flex;
     justify-content: space-between;
@@ -73,6 +77,25 @@ const SliderContainer = styled.div`
   & .slider {
     width: 100%;
     margin-bottom: 0.4rem;
+  }
+`;
+
+const RadiusContainer = styled.div`
+  display: flex;
+  font-family: Medium;
+  align-items: center;
+  font-size: 1.3rem;
+  line-height: 2rem;
+  & > .radius {
+    background-color: ${palette.inversed1};
+    padding: 1.6rem;
+    border-radius: 1.2rem;
+    color: ${palette.default2};
+    width: 12rem;
+    margin-right: 0.8rem;
+  }
+  & > span {
+    color: ${palette.default1};
   }
 `;
 
@@ -162,21 +185,25 @@ const Panel = ({ address }: PanelProps) => {
           <h2>광고 지역</h2>
           <Address>{address}</Address>
           <h2>광고 반경 선택</h2>
-          <SliderContainer>
-            <Slider
-              min={0}
-              max={2000}
-              className="slider"
-              step={100}
-              onChange={handleRadius}
-              value={radius}
-            />
-            <div>
-              <span>0</span>
-              <span>1km</span>
-              <span>2km</span>
-            </div>
-          </SliderContainer>
+          <RadiusContainer>
+            <SliderContainer>
+              <Slider
+                min={0}
+                max={2000}
+                className="slider"
+                step={100}
+                onChange={handleRadius}
+                value={radius}
+              />
+              <div>
+                <span>0</span>
+                <span>1km</span>
+                <span>2km</span>
+              </div>
+            </SliderContainer>
+            <div className="radius">{radius}</div>
+            <span className="meter">미터</span>
+          </RadiusContainer>
         </>
       )}
       <Button active={main !== ''}>다음</Button>
