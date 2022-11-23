@@ -93,8 +93,8 @@ const DateContainer = styled.div`
 
 function toStringByFormatting(source: Date, delimiter = '.') {
   const year = source.getFullYear();
-  const month = source.getMonth() + 1;
-  const day = source.getDate();
+  const month = (source.getMonth() + 1).toString().padStart(2, '0');
+  const day = source.getDate().toString().padStart(2, '0');
 
   return [year, month, day].join(delimiter);
 }
@@ -146,6 +146,7 @@ const Panel = () => {
           <Container>
             <input
               type="date"
+              value={date ? toStringByFormatting(date, '-') : ''}
               onChange={(e) => setDate(new Date(e.target.value))}
             ></input>
           </Container>
@@ -167,6 +168,7 @@ const Panel = () => {
             <Container>
               <input
                 type="date"
+                value={startDate ? toStringByFormatting(startDate, '-') : ''}
                 onChange={(e) => setStartDate(new Date(e.target.value))}
               ></input>
             </Container>
@@ -174,6 +176,7 @@ const Panel = () => {
             <Container>
               <input
                 type="date"
+                value={endDate ? toStringByFormatting(endDate, '-') : ''}
                 onChange={(e) => setEndDate(new Date(e.target.value))}
               ></input>
             </Container>
@@ -192,7 +195,16 @@ const Panel = () => {
       )}
       <Margin />
       <Bold>계속 진행하시려면 다음 버튼을 눌러주세요.</Bold>
-      <Button active={false}>다음</Button>
+      <Button
+        active={
+          (type === 'budget' && budget !== '' && date !== undefined) ||
+          (type === 'period' &&
+            startDate !== undefined &&
+            endDate !== undefined)
+        }
+      >
+        다음
+      </Button>
     </PanelBlock>
   );
 };
