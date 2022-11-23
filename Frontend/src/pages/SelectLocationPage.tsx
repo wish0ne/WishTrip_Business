@@ -4,7 +4,7 @@ import palette from '../lib/palette';
 import Header from '../components/common/Header';
 import Panel from '../components/SelectLocation/Panel';
 import { useRecoilState } from 'recoil';
-import { selectedCode } from '../recoil/atom';
+import { selectCoord, selectedCode, selectRadius } from '../recoil/atom';
 import { getStores } from '../lib/api/client';
 
 const PageBlock = styled.div`
@@ -58,8 +58,9 @@ const mapOptions = {
 const SelectLocationPage = () => {
   const [code, setCode] = useRecoilState(selectedCode);
   const [stores, setStores] = useState<naver.maps.LatLng[]>([]);
-  const [select, setSelect] = useState<{ lat: number; lng: number }>(); //선택한 지역 좌표
-  const [radius, setRadius] = useState<number>(1000);
+  const [select, setSelect] = useRecoilState(selectCoord);
+  const [radius, setRadius] = useRecoilState(selectRadius);
+  const [address, setAddress] = useState<string>('');
 
   useEffect(() => {
     const map: naver.maps.Map = new window.naver.maps.Map('map', mapOptions);
@@ -107,12 +108,10 @@ const SelectLocationPage = () => {
             return alert('Something wrong!');
           }
 
-          var result = response.v2, // 검색 결과의 컨테이너
-            items = result.results, // 검색 결과의 배열
-            address = result.address; // 검색 결과로 만든 주소
+          const address = response.v2.address; // 검색 결과로 만든 주소
 
           // do Something
-          console.log(address.jibunAddress + address.roadAddress);
+          setAddress(address.jibunAddress + ' ' + address.roadAddress);
         },
       );
     }
@@ -135,7 +134,7 @@ const SelectLocationPage = () => {
       <Header>도움말</Header>
       <PageBlock>
         <Map id="map" />
-        <Panel />
+        <Panel address={address} />
       </PageBlock>
     </>
   );

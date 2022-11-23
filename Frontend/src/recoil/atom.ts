@@ -24,3 +24,13 @@ export const selectedCode = atom({
   key: 'selectedCode',
   default: '',
 });
+
+export const selectCoord = atom<{ lat: number; lng: number }>({
+  key: 'selectedCoord',
+  default: undefined,
+});
+
+export const selectRadius = atom<number>({
+  key: 'selectedRadius',
+  default: 1000,
+});

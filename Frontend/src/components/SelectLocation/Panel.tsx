@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import Slider from 'rc-slider';
+import Range from 'rc-slider';
+import 'rc-slider/assets/index.css';
 import palette from '../../lib/palette';
 import Title from '../common/Title';
 import Button from '../common/Button';
@@ -10,7 +13,7 @@ import {
   subCategory,
 } from '../../lib/api/client';
 import { useRecoilState } from 'recoil';
-import { selectedCode } from '../../recoil/atom';
+import { selectedCode, selectRadius } from '../../recoil/atom';
 
 const PanelBlock = styled.div`
   width: 50%;
@@ -43,7 +46,41 @@ const Line = styled.div`
   margin: 2.4rem 0;
 `;
 
-const Panel = () => {
+const Address = styled.div`
+  width: 100%;
+  padding: 1.6rem;
+  background-color: ${palette.inversed1};
+  border-radius: 1.2rem;
+  font-family: 'Medium';
+  font-size: 1.3rem;
+  line-height: 2rem;
+  margin-bottom: 2.4rem;
+`;
+
+const SliderContainer = styled.div`
+  width: 50%;
+  & > div {
+    display: flex;
+    justify-content: space-between;
+    & > span {
+      font-family: Medium;
+      font-size: 1.3rem;
+      line-height: 1.6rem;
+      color: ${palette.default1};
+    }
+  }
+
+  & .slider {
+    width: 100%;
+    margin-bottom: 0.4rem;
+  }
+`;
+
+interface PanelProps {
+  address: string;
+}
+
+const Panel = ({ address }: PanelProps) => {
   const [code, setCode] = useRecoilState(selectedCode);
   //카테고리
   const [mainList, setMainList] = useState([]);
@@ -54,6 +91,12 @@ const Panel = () => {
   const [main, setMain] = useState('');
   const [middle, setMiddle] = useState('');
   const [sub, setSub] = useState('');
+
+  const [radius, setRadius] = useRecoilState(selectRadius);
+
+  const handleRadius = (e: number | number[]) => {
+    if (!Array.isArray(e)) setRadius(e);
+  };
 
   useEffect(() => {
     const getMain = async () => {
@@ -113,7 +156,29 @@ const Panel = () => {
         </Selectbox>
       </SelectContainer>
       <Line />
-      <h3>지도에서 원하는 광고 지역을 선택해주세요.</h3>
+      {address === '' && <h3>지도에서 원하는 광고 지역을 선택해주세요.</h3>}
+      {address !== '' && (
+        <>
+          <h2>광고 지역</h2>
+          <Address>{address}</Address>
+          <h2>광고 반경 선택</h2>
+          <SliderContainer>
+            <Slider
+              min={0}
+              max={2000}
+              className="slider"
+              step={100}
+              onChange={handleRadius}
+              value={radius}
+            />
+            <div>
+              <span>0</span>
+              <span>1km</span>
+              <span>2km</span>
+            </div>
+          </SliderContainer>
+        </>
+      )}
       <Button active={main !== ''}>다음</Button>
     </PanelBlock>
   );
