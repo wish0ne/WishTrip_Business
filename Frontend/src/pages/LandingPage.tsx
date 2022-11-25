@@ -59,7 +59,7 @@ const StartButton = styled(Link)`
 const LandingPage = () => {
   return (
     <>
-      <Header>로그인</Header>
+      <Header>로그아웃</Header>
       <Background>
         <Image src={Landing} />
         <Cover />

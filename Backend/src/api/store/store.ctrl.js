@@ -19,6 +19,7 @@ export const readMainCategory = async (ctx) => {
       ctx.status = 404;
       return;
     }
+    console.log(result);
     ctx.body = result;
   } catch (e) {
     ctx.throw(500, e);
