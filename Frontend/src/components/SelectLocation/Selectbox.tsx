@@ -47,7 +47,7 @@ const Selectbox = ({
         <option value="" disabled>
           {children}
         </option>
-        {options &&
+        {options.length > 0 &&
           options.map(({ code, name }) => (
             <option value={code} key={code}>
               {name}
