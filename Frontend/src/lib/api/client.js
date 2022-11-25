@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const client = axios.create();
-client.defaults.baseURL = 'http://api.wishtrip.business/api/store/';
+client.defaults.baseURL = 'https://apiv2.wishtrip.business/api/store/';
 
 //대분류 목록 불러오기
 export const mainCategory = async () => {
