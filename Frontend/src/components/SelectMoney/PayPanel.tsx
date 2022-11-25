@@ -63,7 +63,7 @@ const PayPanel = ({ pay }: { pay: number }) => {
       <SmallButton selected={false} handleClick={() => {}}>
         무통장입금
       </SmallButton>
-      <Container></Container>
+      <Margin />
       <Text>총 결제 금액</Text>
       <Bold>{pay.toLocaleString('ko-KR')}원</Bold>
       <Margin />

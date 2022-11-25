@@ -18,11 +18,12 @@ const PanelBlock = styled.div`
     font-size: 1.2rem;
     color: ${palette.default1};
     margin-bottom: 0.4rem;
+    margin-top: 0.4rem;
   }
 `;
 
 const ButtonContainer = styled.div`
-  margin-bottom: 2.4rem;
+  margin-bottom: 2rem;
 `;
 
 const SelectBtn = styled.button<{ selected: boolean }>`
